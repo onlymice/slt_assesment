@@ -11,7 +11,8 @@ class PriceListRepository {
   Future<PriceListModel> priceList(
       {required int offset, int limit = 15}) async {
     final response = await _client.get(Endpoints.assets,
-        queryParameters: {'offset': offset, 'limit': limit});
+        queryParameters: {'offset': offset * limit, 'limit': limit});
+    if (response.statusCode != 200) return const PriceListModel(items: []);
     return PriceListModel.fromJson(response.data);
   }
 }
